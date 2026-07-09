@@ -1,0 +1,28 @@
+### 1. Add a book
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "title": "The Alchemist",
+  "author": "Paulo Coelho",
+  "price": 499
+}
+
+### 2. Get all books
+GET http://localhost:8080/books
+
+### 3. Get book with ID 1
+GET http://localhost:8080/books/1
+
+### 4. Update book with ID 1
+PUT http://localhost:8080/books/1
+Content-Type: application/json
+
+{
+  "title": "The Alchemist - Updated",
+  "author": "Paulo Coelho",
+  "price": 599
+}
+
+### 5. Delete book with ID 1
+DELETE http://localhost:8080/books/1
