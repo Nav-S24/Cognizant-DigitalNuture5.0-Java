@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Departments -->
+
+    <bean id="deptIT"
+          class="com.cognizant.employeemanagementapi.model.Department">
+        <property name="id" value="1"/>
+        <property name="name" value="IT"/>
+    </bean>
+
+    <bean id="deptHR"
+          class="com.cognizant.employeemanagementapi.model.Department">
+        <property name="id" value="2"/>
+        <property name="name" value="HR"/>
+    </bean>
+
+    <bean id="deptFinance"
+          class="com.cognizant.employeemanagementapi.model.Department">
+        <property name="id" value="3"/>
+        <property name="name" value="Finance"/>
+    </bean>
+
+
+    <!-- Reusable Skills -->
+
+    <bean id="javaSkill"
+          class="com.cognizant.employeemanagementapi.model.Skill">
+        <property name="id" value="1"/>
+        <property name="name" value="Java"/>
+    </bean>
+
+    <bean id="springSkill"
+          class="com.cognizant.employeemanagementapi.model.Skill">
+        <property name="id" value="2"/>
+        <property name="name" value="Spring Boot"/>
+    </bean>
+
+    <bean id="sqlSkill"
+          class="com.cognizant.employeemanagementapi.model.Skill">
+        <property name="id" value="3"/>
+        <property name="name" value="SQL"/>
+    </bean>
+
+
+    <!-- Employees -->
+
+    <bean id="employee1"
+          class="com.cognizant.employeemanagementapi.model.Employee">
+
+        <property name="id" value="101"/>
+        <property name="name" value="Amit"/>
+        <property name="salary" value="50000"/>
+        <property name="permanent" value="true"/>
+        <property name="department" ref="deptIT"/>
+
+        <property name="skills">
+            <list>
+                <ref bean="javaSkill"/>
+                <ref bean="springSkill"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="employee2"
+          class="com.cognizant.employeemanagementapi.model.Employee">
+
+        <property name="id" value="102"/>
+        <property name="name" value="Priya"/>
+        <property name="salary" value="45000"/>
+        <property name="permanent" value="true"/>
+        <property name="department" ref="deptHR"/>
+
+        <property name="skills">
+            <list>
+                <ref bean="sqlSkill"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="employee3"
+          class="com.cognizant.employeemanagementapi.model.Employee">
+
+        <property name="id" value="103"/>
+        <property name="name" value="Rahul"/>
+        <property name="salary" value="60000"/>
+        <property name="permanent" value="false"/>
+        <property name="department" ref="deptIT"/>
+
+        <property name="skills">
+            <list>
+                <ref bean="javaSkill"/>
+                <ref bean="sqlSkill"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="employee4"
+          class="com.cognizant.employeemanagementapi.model.Employee">
+
+        <property name="id" value="104"/>
+        <property name="name" value="Sneha"/>
+        <property name="salary" value="55000"/>
+        <property name="permanent" value="true"/>
+        <property name="department" ref="deptFinance"/>
+
+        <property name="skills">
+            <list>
+                <ref bean="sqlSkill"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Employee List -->
+
+    <bean id="employeeList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <ref bean="employee1"/>
+                <ref bean="employee2"/>
+                <ref bean="employee3"/>
+                <ref bean="employee4"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+
+    <!-- Department List -->
+
+    <bean id="departmentList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <ref bean="deptIT"/>
+                <ref bean="deptHR"/>
+                <ref bean="deptFinance"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+</beans>
