@@ -1,0 +1,14 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: jwt-auth
+  security:
+    jwt:
+      # HS256 needs a secret that is at least 256 bits (32 bytes) once
+      # UTF-8 encoded - the "YOUR_SECRET_KEY" placeholder from the original
+      # exercise is far too short and jjwt 0.11.x will reject it at runtime.
+      secret: "ThisIsADemoJwtSigningKeyForExercise3ChangeMe!!"
+      # token validity in milliseconds (1 hour)
+      expiration-ms: 3600000

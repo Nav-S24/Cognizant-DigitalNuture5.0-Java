@@ -1,0 +1,20 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: resource-server
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # Option A (production): point at a real Authorization Server and
+          # Spring will auto-discover its JWK set from
+          # {issuer-uri}/.well-known/openid-configuration
+          # issuer-uri: https://issuer.example.com
+
+          # Option B (local demo/testing, used by this project): validate
+          # tokens signed with a shared HMAC secret so the resource server
+          # can be tested standalone, without standing up a full
+          # Authorization Server. See ResourceServerConfig.jwtDecoder().
+          secret-key: "ThisIsADemoSecretKeyForHS256TestingOnlyChangeMe123"

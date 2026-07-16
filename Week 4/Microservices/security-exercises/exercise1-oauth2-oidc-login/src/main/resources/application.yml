@@ -1,0 +1,33 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: oauth2-oidc-login
+  security:
+    oauth2:
+      client:
+        registration:
+          my-client:
+            client-id: YOUR_CLIENT_ID
+            client-secret: YOUR_CLIENT_SECRET
+            scope:
+              - openid
+              - profile
+              - email
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            client-name: My OIDC Provider
+        provider:
+          my-client:
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://openidconnect.googleapis.com/v1/userinfo
+            jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
+            user-name-attribute: sub
+
+# NOTE:
+# - Replace YOUR_CLIENT_ID / YOUR_CLIENT_SECRET with real credentials from your
+#   OIDC provider (Google, Okta, Keycloak, Azure AD, etc.) before running.
+# - "my-client" here plays the role of the "my-provider" referenced in the
+#   original exercise text - registration and provider ids must match.
