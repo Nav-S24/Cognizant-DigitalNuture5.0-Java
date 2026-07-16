@@ -1,0 +1,64 @@
+class Task {
+    int taskId;
+    String taskName;
+    String status;
+    Task next;
+
+    Task(int taskId, String taskName, String status) {
+        this.taskId = taskId;
+        this.taskName = taskName;
+        this.status = status;
+    }
+}
+
+public class TaskManagementSystem {
+    Task head;
+
+    void addTask(int id, String name, String status) {
+        Task newTask = new Task(id, name, status);
+        newTask.next = head;
+        head = newTask;
+    }
+
+    Task searchTask(int id) {
+        Task temp = head;
+        while (temp != null) {
+            if (temp.taskId == id)
+                return temp;
+            temp = temp.next;
+        }
+        return null;
+    }
+
+    void deleteTask(int id) {
+        if (head == null) return;
+
+        if (head.taskId == id) {
+            head = head.next;
+            return;
+        }
+
+        Task temp = head;
+        while (temp.next != null && temp.next.taskId != id) {
+            temp = temp.next;
+        }
+
+        if (temp.next != null)
+            temp.next = temp.next.next;
+    }
+
+    void traverse() {
+        Task temp = head;
+        while (temp != null) {
+            System.out.println(temp.taskName);
+            temp = temp.next;
+        }
+    }
+
+    public static void main(String[] args) {
+        TaskManagementSystem list = new TaskManagementSystem();
+        list.addTask(1, "Coding", "Pending");
+        list.addTask(2, "Testing", "Completed");
+        list.traverse();
+    }
+}
