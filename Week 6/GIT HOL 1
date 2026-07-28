@@ -1,0 +1,53 @@
+$ git --version
+git version 2.x.x
+ 
+$ git config --global user.name "Your Name"
+$ git config --global user.email "your.email@example.com"
+ 
+$ git config --list
+user.name=Your Name
+user.email=your.email@example.com
+...
+ 
+$ git init GitDemo
+Initialized empty Git repository in .../GitDemo/.git/
+ 
+$ cd GitDemo
+$ ls -la
+total 8
+drwxr-xr-x  .git
+ 
+$ echo "Welcome to Git hands-on lab!" > welcome.txt
+ 
+$ ls -la
+welcome.txt
+ 
+$ cat welcome.txt
+Welcome to Git hands-on lab!
+ 
+$ git status
+On branch master
+No commits yet
+Untracked files:
+  welcome.txt
+nothing added to commit but untracked files present
+ 
+$ git add welcome.txt
+ 
+$ git commit -m "Added welcome.txt"
+[master (root-commit) bdd34fd] Added welcome.txt
+ 1 file changed, 1 insertion(+)
+ create mode 100644 welcome.txt
+ 
+$ git status
+On branch master
+nothing to commit, working tree clean
+ 
+$ git log --oneline
+bdd34fd Added welcome.txt
+ 
+# To connect to a remote (GitLab/GitHub) and sync:
+$ git remote add origin <your-remote-repo-url>
+$ git pull origin master
+$ git push origin master
+ 
