@@ -1,0 +1,26 @@
+# step 1: verify master is in clean state
+$ git status
+On branch master
+nothing to commit, working tree clean
+ 
+# step 2: list all available branches
+$ git branch -a
+* master
+ 
+# step 3: pull the remote repository to master
+$ git pull origin master
+# requires: a remote named "origin" pointing at your GitLab/GitHub repo
+# (git remote add origin <your-repo-url>), and your own account
+# credentials — cannot be executed here since it depends on your
+# personal remote, not something this environment has access to.
+ 
+# step 4: push pending changes from Git-T03-HOL_002 to the remote
+$ git push origin master
+# same requirement as above — run this from your machine once
+# origin is configured and you're authenticated.
+ 
+# step 5: verify the changes are reflected in the remote repository
+# Refresh the project page in your browser (GitLab/GitHub) and confirm
+# the latest commits (861dc4e, 2b2625d, 2c82e61, adeaa40, 2ded98d, cba3ca2)
+# appear in the commit history.
+ 

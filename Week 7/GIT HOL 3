@@ -1,0 +1,71 @@
+$ git status
+On branch master
+nothing to commit, working tree clean
+ 
+# --- Branching ---
+ 
+$ git branch GitNewBranch
+ 
+$ git branch -a
+  GitNewBranch
+* master
+ 
+$ git checkout GitNewBranch
+Switched to branch 'GitNewBranch'
+ 
+$ echo "feature content for new branch" > feature.txt
+ 
+$ git status
+On branch GitNewBranch
+Untracked files:
+  feature.txt
+ 
+$ git add feature.txt
+$ git commit -m "Added feature.txt on GitNewBranch"
+[GitNewBranch cba3ca2] Added feature.txt on GitNewBranch
+ 1 file changed, 1 insertion(+)
+ create mode 100644 feature.txt
+ 
+$ git status
+On branch GitNewBranch
+nothing to commit, working tree clean
+ 
+# --- Merging ---
+ 
+$ git checkout master
+Switched to branch 'master'
+ 
+$ git diff master GitNewBranch
+diff --git a/feature.txt b/feature.txt
+new file mode 100644
+--- /dev/null
++++ b/feature.txt
+@@ -0,0 +1 @@
++feature content for new branch
+ 
+# Visual diff (P4Merge): run `git difftool master GitNewBranch` on a
+# machine with P4Merge configured as the diff tool — opens a GUI
+# side-by-side view. Cannot be captured in this text transcript since
+# it's a graphical tool, not something scriptable headlessly.
+ 
+$ git merge GitNewBranch -m "Merge branch 'GitNewBranch' into master"
+Updating a5ec38d..cba3ca2
+Fast-forward
+ feature.txt | 1 +
+ 1 file changed, 1 insertion(+)
+ 
+$ git log --oneline --graph --decorate --all
+* cba3ca2 (HEAD -> master, GitNewBranch) Added feature.txt on GitNewBranch
+* a5ec38d Added .gitignore to exclude .log files and log folder
+* bdd34fd Added welcome.txt
+ 
+$ git branch -d GitNewBranch
+Deleted branch GitNewBranch (was cba3ca2).
+ 
+$ git status
+On branch master
+nothing to commit, working tree clean
+ 
+$ git branch -a
+* master
+ 

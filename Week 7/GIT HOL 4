@@ -1,0 +1,149 @@
+$ git status                      # step 1: verify master clean
+On branch master
+nothing to commit, working tree clean
+ 
+$ git checkout -b GitWork         # step 2: create branch + add hello.xml
+Switched to a new branch 'GitWork'
+ 
+$ cat > hello.xml <<'EOF'
+<?xml version="1.0"?>
+<root>
+  <message>Hello from GitWork branch</message>
+</root>
+EOF
+ 
+$ git add hello.xml
+$ git commit -m "Added hello.xml on GitWork branch"
+[GitWork adeaa40] Added hello.xml on GitWork branch
+ 
+# step 3: update content of hello.xml, observe status
+$ cat > hello.xml <<'EOF'
+<?xml version="1.0"?>
+<root>
+  <message>Hello from GitWork branch - UPDATED</message>
+</root>
+EOF
+ 
+$ git status
+On branch GitWork
+Changes not staged for commit:
+  modified:   hello.xml
+ 
+# step 4: commit changes to branch
+$ git add hello.xml
+$ git commit -m "Updated hello.xml content on GitWork"
+[GitWork 2ded98d] Updated hello.xml content on GitWork
+ 
+# step 5: switch to master
+$ git checkout master
+Switched to branch 'master'
+ 
+# step 6: add hello.xml to master with DIFFERENT content
+$ cat > hello.xml <<'EOF'
+<?xml version="1.0"?>
+<root>
+  <message>Hello from master branch</message>
+</root>
+EOF
+ 
+# step 7: commit to master
+$ git add hello.xml
+$ git commit -m "Added hello.xml on master with different content"
+[master 2c82e61] Added hello.xml on master with different content
+ 
+# step 8: observe the log
+$ git log --oneline --graph --decorate --all
+* 2c82e61 (HEAD -> master) Added hello.xml on master with different content
+| * 2ded98d (GitWork) Updated hello.xml content on GitWork
+| * adeaa40 Added hello.xml on GitWork branch
+|/
+* cba3ca2 Added feature.txt on GitNewBranch
+* a5ec38d Added .gitignore to exclude .log files and log folder
+* bdd34fd Added welcome.txt
+ 
+# step 9: check differences with git diff
+$ git diff master GitWork -- hello.xml
+-  <message>Hello from master branch</message>
++  <message>Hello from GitWork branch - UPDATED</message>
+ 
+# step 10: P4Merge visual diff — same note as above, GUI-only tool.
+# `git difftool master GitWork -- hello.xml` on a configured machine.
+ 
+# step 11: merge GitWork into master -> CONFLICT (both branches added
+# the same file with different content = add/add conflict)
+$ git merge GitWork -m "Merge GitWork into master"
+Auto-merging hello.xml
+CONFLICT (add/add): Merge conflict in hello.xml
+Automatic merge failed; fix conflicts and then commit the result.
+ 
+# step 12: observe the git markup
+$ git status
+On branch master
+You have unmerged paths.
+Unmerged paths:
+  both added:      hello.xml
+ 
+$ cat hello.xml
+<?xml version="1.0"?>
+<root>
+<<<<<<< HEAD
+  <message>Hello from master branch</message>
+=======
+  <message>Hello from GitWork branch - UPDATED</message>
+>>>>>>> GitWork
+</root>
+ 
+# step 13: resolve conflict (3-way merge tool would be
+# `git mergetool` with P4Merge configured; resolved manually here by
+# combining both messages and removing the conflict markers)
+$ cp hello.xml hello.xml.orig      # keep a backup before editing
+$ cat > hello.xml <<'EOF'
+<?xml version="1.0"?>
+<root>
+  <message>Hello from master branch AND GitWork branch - merged</message>
+</root>
+EOF
+ 
+# step 14: commit the resolved merge
+$ git add hello.xml
+$ git commit -m "Resolved merge conflict in hello.xml (combined master + GitWork content)"
+[master 2b2625d] Resolved merge conflict in hello.xml ...
+ 
+# step 15: observe status; add backup file to .gitignore
+$ git status
+On branch master
+Untracked files:
+  hello.xml.orig
+ 
+$ echo "*.orig" >> .gitignore
+$ cat .gitignore
+*.log
+log/
+*.orig
+ 
+# step 16: commit the .gitignore change
+$ git add .gitignore
+$ git commit -m "Added *.orig backup files to .gitignore"
+[master 861dc4e] Added *.orig backup files to .gitignore
+ 
+# step 17: list all available branches
+$ git branch -a
+  GitWork
+* master
+ 
+# step 18: delete the branch that was merged
+$ git branch -d GitWork
+Deleted branch GitWork (was 2ded98d).
+ 
+# step 19: observe the log
+$ git log --oneline --graph --decorate
+* 861dc4e (HEAD -> master) Added *.orig backup files to .gitignore
+*   2b2625d Resolved merge conflict in hello.xml (combined master + GitWork content)
+|\
+| * 2ded98d Updated hello.xml content on GitWork
+| * adeaa40 Added hello.xml on GitWork branch
+* | 2c82e61 Added hello.xml on master with different content
+|/
+* cba3ca2 Added feature.txt on GitNewBranch
+* a5ec38d Added .gitignore to exclude .log files and log folder
+* bdd34fd Added welcome.txt
